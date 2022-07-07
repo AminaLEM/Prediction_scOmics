@@ -199,8 +199,6 @@ snakemake --cores all all --snakefile ${SNK_REPO}/scr/snakefile --configfile ${S
 ```
 2- Using all in one image
 
-* install snakemake via conda (See [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) for more details)
-
 ```bash
 singularity run -B /Host_directory aminale_immun2sev_firstpush-2022-07-07.sif "snakemake --cores all all --snakefile src/snakefile  --configfile /path_to_config/config.yml --directory /writable_directory"
 ```
