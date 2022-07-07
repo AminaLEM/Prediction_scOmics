@@ -18,7 +18,6 @@ x_exp=pd.read_csv (snakemake.input[1],index_col=0)
 x_exp=x_exp.loc[x_exp['condition'].isin(['Mild','Severe']),:]
 x_cell=x_cell.loc[x_cell['condition'].isin(['Mild','Severe']),:]
 x_cell=x_cell.drop(['Doublet','Eryth','NK_CD56bright'],axis=1)
-x_exp=x_exp.drop(['MTRNR2L12','MTRNR2L8'],axis=1)
 
 model_j_f=snakemake.input[2]
 model_j_e=snakemake.input[3]
@@ -184,7 +183,6 @@ x_ref_exp=pd.read_csv (snakemake.input[6],index_col=0)
 x_ref_exp=x_ref_exp.loc[x_ref_exp['condition'].isin(['Mild','Severe']),:]
 x_ref_cell=x_ref_cell.loc[x_ref_cell['condition'].isin(['Mild','Severe']),:]
 x_ref_cell=x_ref_cell.drop(['Doublet','Eryth','NK_CD56bright'],axis=1)
-x_ref_exp=x_ref_exp.drop(['MTRNR2L12','MTRNR2L8'],axis=1)
 
 x_ref_cell=x_ref_cell.loc[x_ref_exp.index,:]
 

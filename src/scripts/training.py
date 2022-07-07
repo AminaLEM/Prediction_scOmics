@@ -24,7 +24,6 @@ x_exp=pd.read_csv (snakemake.input[1],index_col=0)
 x_exp=x_exp.loc[x_exp['condition'].isin(['Mild','Severe']),:]
 x_cell=x_cell.loc[x_cell['condition'].isin(['Mild','Severe']),:]
 x_cell=x_cell.drop(['Doublet','Eryth','NK_CD56bright'],axis=1)
-x_exp=x_exp.drop(['MTRNR2L12','MTRNR2L8'],axis=1)
 
 train_set_f=snakemake.output[0]
 val_set_f=snakemake.output[1]

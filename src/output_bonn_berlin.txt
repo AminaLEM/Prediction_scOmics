@@ -1,311 +1,74 @@
 KeyError in line 9 of /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/snakefile:
 'path_out'
   File "/beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/snakefile", line 9, in <module>
-srun: error: io: task 0: Exited with exit code 1
+srun: error: galatea: task 0: Exited with exit code 1
 Building DAG of jobs...
+Pulling singularity image docker://aminale/test:firstpush.
 Using shell: /usr/bin/bash
 Provided cores: 10
 Rules claiming more threads will be scaled down.
 Job stats:
-job        count    min threads    max threads
--------  -------  -------------  -------------
-all            1              1              1
-predict        2              1              1
-total          3              1              1
+job            count    min threads    max threads
+-----------  -------  -------------  -------------
+all                1              1              1
+predict            2              1              1
+train_model        1              1              1
+total              4              1              1
 
 Select jobs to execute...
 
-[Sat Jun 25 08:30:48 2022]
-rule predict:
-    input: /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/annotation.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/selected_ge.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/model_CC_GE.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/model_GE.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/model_CC.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/annotation.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/selected_ge.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/train_set.pkl
-    output: /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/fig_metrics.pdf, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/fig_shap.pdf
-    jobid: 1
-    wildcards: var1=asan_.h5Seurat
+[Thu Jul  7 18:41:08 2022]
+rule train_model:
+    input: /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/annotation.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/selected_ge.csv
+    output: /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/val_set.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/train_set.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/model_CC_GE.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/model_GE.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/model_CC.pkl
+    jobid: 11
     resources: tmpdir=/tmp
 
-[Sat Jun 25 08:30:48 2022]
-rule predict:
-    input: /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/annotation.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/selected_ge.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/model_CC_GE.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/model_GE.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/model_CC.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/annotation.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/selected_ge.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/merged_training/train_set.pkl
-    output: /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/fig_metrics.pdf, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/fig_shap.pdf
-    jobid: 14
-    wildcards: var1=stanford_pbmc_29.h5Seurat
-    resources: tmpdir=/tmp
-
-python /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpaq_tilyt.predict.py
+python /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpp_97gn0o.training.py
 Activating singularity image /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/singularity/832e3cd54b08b0943b10d9357d10dace.simg
-python /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpzbdwiw76.predict.py
-Activating singularity image /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/singularity/832e3cd54b08b0943b10d9357d10dace.simg
-2022-06-25 08:30:54.671850: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /.singularity.d/libs
-2022-06-25 08:30:54.671880: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
-2022-06-25 08:30:54.715171: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /.singularity.d/libs
-2022-06-25 08:30:54.715202: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
-WARNING:tensorflow:From /opt/conda/lib/python3.9/site-packages/tensorflow/python/compat/v2_compat.py:107: disable_resource_variables (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
-Instructions for updating:
-non-resource variables are not supported in the long term
-WARNING:tensorflow:From /opt/conda/lib/python3.9/site-packages/tensorflow/python/compat/v2_compat.py:107: disable_resource_variables (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
-Instructions for updating:
-non-resource variables are not supported in the long term
-WARNING:tensorflow:OMP_NUM_THREADS is no longer used by the default Keras config. To configure the number of threads, use tf.config.threading APIs.
-WARNING:tensorflow:OMP_NUM_THREADS is no longer used by the default Keras config. To configure the number of threads, use tf.config.threading APIs.
-2022-06-25 08:31:05.272342: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /.singularity.d/libs
-2022-06-25 08:31:05.272370: W tensorflow/stream_executor/cuda/cuda_driver.cc:269] failed call to cuInit: UNKNOWN ERROR (303)
-2022-06-25 08:31:05.272399: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (io): /proc/driver/nvidia/version does not exist
-2022-06-25 08:31:05.272668: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+2022-07-07 18:41:14.001994: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /.singularity.d/libs
+2022-07-07 18:41:14.002047: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-07-07 18:41:19.987364: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /.singularity.d/libs
+2022-07-07 18:41:19.987443: W tensorflow/stream_executor/cuda/cuda_driver.cc:269] failed call to cuInit: UNKNOWN ERROR (303)
+2022-07-07 18:41:19.987481: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: galatea
+2022-07-07 18:41:19.987492: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: galatea
+2022-07-07 18:41:19.987587: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: NOT_FOUND: was unable to find libcuda.so DSO loaded into this program
+2022-07-07 18:41:19.987653: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 470.57.2
+2022-07-07 18:41:19.987974: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
 To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2022-06-25 08:31:05.281633: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /.singularity.d/libs
-2022-06-25 08:31:05.281660: W tensorflow/stream_executor/cuda/cuda_driver.cc:269] failed call to cuInit: UNKNOWN ERROR (303)
-2022-06-25 08:31:05.281687: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (io): /proc/driver/nvidia/version does not exist
-2022-06-25 08:31:05.281999: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2022-06-25 08:31:05.303547: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:354] MLIR V1 optimization pass is not enabled
-2022-06-25 08:31:05.312643: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:354] MLIR V1 optimization pass is not enabled
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-`Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
-Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+0
+Epoch 0, loss 0.66, val_loss 0.69, accuracy 0.60, val_accuracy 0.67
+Epoch 100, loss 0.21, val_loss 0.65, accuracy 0.92, val_accuracy 0.80
+Epoch 0, loss 0.76, val_loss 0.72, accuracy 0.50, val_accuracy 0.47
+Epoch 100, loss 0.32, val_loss 0.59, accuracy 0.89, val_accuracy 0.67
+Epoch 200, loss 0.17, val_loss 0.65, accuracy 0.94, val_accuracy 0.67
+Epoch 0, loss 0.69, val_loss 0.69, accuracy 0.52, val_accuracy 0.40
 Traceback (most recent call last):
-  File "/beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpzbdwiw76.predict.py", line 201, in <module>
-    training_set=pd.read_csv (snakemake.input[7],index_col=0)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/util/_decorators.py", line 311, in wrapper
-    return func(*args, **kwargs)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 680, in read_csv
-    return _read(filepath_or_buffer, kwds)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 575, in _read
-    parser = TextFileReader(filepath_or_buffer, **kwds)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 933, in __init__
-    self._engine = self._make_engine(f, self.engine)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1235, in _make_engine
-    return mapping[engine](f, **self.options)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 75, in __init__
-    self._reader = parsers.TextReader(src, **kwds)
-  File "pandas/_libs/parsers.pyx", line 544, in pandas._libs.parsers.TextReader.__cinit__
-  File "pandas/_libs/parsers.pyx", line 633, in pandas._libs.parsers.TextReader._get_header
-  File "pandas/_libs/parsers.pyx", line 847, in pandas._libs.parsers.TextReader._tokenize_rows
-  File "pandas/_libs/parsers.pyx", line 1952, in pandas._libs.parsers.raise_parser_error
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte
-Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-Traceback (most recent call last):
-  File "/beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpaq_tilyt.predict.py", line 201, in <module>
-    training_set=pd.read_csv (snakemake.input[7],index_col=0)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/util/_decorators.py", line 311, in wrapper
-    return func(*args, **kwargs)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 680, in read_csv
-    return _read(filepath_or_buffer, kwds)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 575, in _read
-    parser = TextFileReader(filepath_or_buffer, **kwds)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 933, in __init__
-    self._engine = self._make_engine(f, self.engine)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1235, in _make_engine
-    return mapping[engine](f, **self.options)
-  File "/opt/conda/lib/python3.9/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 75, in __init__
-    self._reader = parsers.TextReader(src, **kwds)
-  File "pandas/_libs/parsers.pyx", line 544, in pandas._libs.parsers.TextReader.__cinit__
-  File "pandas/_libs/parsers.pyx", line 633, in pandas._libs.parsers.TextReader._get_header
-  File "pandas/_libs/parsers.pyx", line 847, in pandas._libs.parsers.TextReader._tokenize_rows
-  File "pandas/_libs/parsers.pyx", line 1952, in pandas._libs.parsers.raise_parser_error
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte
-[Sat Jun 25 08:39:07 2022]
-Error in rule predict:
-    jobid: 1
-    output: /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/fig_metrics.pdf, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/fig_shap.pdf
+  File "/beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpp_97gn0o.training.py", line 197, in <module>
+    model, history= training(model, train[:,dim_exp:(dim_exp+dim_cells)]
+  File "/beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpp_97gn0o.training.py", line 88, in training
+    history = model.fit(
+  File "/opt/conda/lib/python3.9/site-packages/keras/utils/traceback_utils.py", line 67, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/opt/conda/lib/python3.9/site-packages/h5py/_hl/files.py", line 533, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+  File "/opt/conda/lib/python3.9/site-packages/h5py/_hl/files.py", line 232, in make_fid
+    fid = h5f.create(name, h5f.ACC_TRUNC, fapl=fapl, fcpl=fcpl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 126, in h5py.h5f.create
+OSError: Unable to create file (file signature not found)
+[Thu Jul  7 18:42:19 2022]
+Error in rule train_model:
+    jobid: 11
+    output: /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/val_set.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/train_set.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/model_CC_GE.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/model_GE.pkl, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output/merged_training/model_CC.pkl
 
 RuleException:
-CalledProcessError in line 145 of /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/snakefile:
-Command ' singularity  exec --home /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src -B /prj --bind /home/alemsara/miniconda3/lib/python3.9/site-packages:/mnt/snakemake /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/singularity/832e3cd54b08b0943b10d9357d10dace.simg bash -c 'set -euo pipefail;  python /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpzbdwiw76.predict.py'' returned non-zero exit status 1.
-  File "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/snakefile", line 145, in __rule_predict
+CalledProcessError in line 98 of /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/snakefile:
+Command ' singularity  exec --home /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src -B /prj --bind /home/alemsara/miniconda3/lib/python3.9/site-packages:/mnt/snakemake /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/singularity/832e3cd54b08b0943b10d9357d10dace.simg bash -c 'set -euo pipefail;  python /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpp_97gn0o.training.py'' returned non-zero exit status 1.
+  File "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/snakefile", line 98, in __rule_train_model
   File "/home/alemsara/miniconda3/lib/python3.9/concurrent/futures/thread.py", line 52, in run
-Removing output files of failed job predict since they might be corrupted:
-/prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/fig_metrics.pdf, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/asan_.h5Seurat/pred_CC.txt
-[Sat Jun 25 08:39:07 2022]
-Error in rule predict:
-    jobid: 14
-    output: /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/fig_metrics.pdf, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/fig_shap.pdf
-
-RuleException:
-CalledProcessError in line 145 of /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/snakefile:
-Command ' singularity  exec --home /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src -B /prj --bind /home/alemsara/miniconda3/lib/python3.9/site-packages:/mnt/snakemake /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/singularity/832e3cd54b08b0943b10d9357d10dace.simg bash -c 'set -euo pipefail;  python /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/scripts/tmpaq_tilyt.predict.py'' returned non-zero exit status 1.
-  File "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/snakefile", line 145, in __rule_predict
-  File "/home/alemsara/miniconda3/lib/python3.9/concurrent/futures/thread.py", line 52, in run
-Removing output files of failed job predict since they might be corrupted:
-/prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_GE.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC.csv, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/fig_metrics.pdf, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_GE.txt, /prj/NUM_CODEX_PLUS/Amina/CellSubmission/severityPred/output_bonn_berlin/stanford_pbmc_29.h5Seurat/pred_CC.txt
 Shutting down, this might take some time.
 Exiting because a job execution failed. Look above for error message
-Complete log: /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/log/2022-06-25T083047.014180.snakemake.log
-srun: error: io: task 0: Exited with exit code 1
+Complete log: /beegfs/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/src/.snakemake/log/2022-07-07T184102.844867.snakemake.log
+srun: error: galatea: task 0: Exited with exit code 1
