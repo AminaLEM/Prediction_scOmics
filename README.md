@@ -217,3 +217,5 @@ docker pull docker2singularity
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/singularity:/output -t --rm quay.io/singularity/docker2singularity test:latest
 ```
 
+
+- Updates are on [ImmunOMICS](https://github.com/dieterich-lab/ImmunOMICS)
