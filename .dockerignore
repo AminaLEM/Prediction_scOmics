@@ -1,0 +1,5 @@
+.snakemake
+*.jar
+*.txt
+*.sh
+*.yaml

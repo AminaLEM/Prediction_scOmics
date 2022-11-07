@@ -1,0 +1,159 @@
+#!/usr/bin/env snakemake
+"""
+Snakemake pipeline for COVID-19 severity classification.
+"""
+
+__version__ = '0.1.0.02'
+
+
+out = config['path_out']+"/"
+inp = config['path_inp']+"/"
+test_set= config['test_data']
+train_set=  config['training_data']
+
+############################################## Quality control ##################################################################
+rule QC:
+    input: inp+"{var1}"
+    wildcard_constraints: var1='(?!merged).+'
+    output:
+        cohort_qc= out+"{var1}/QC.rds"
+    script:
+       "scripts/qc.R"    
+       
+############################################## merge seurat training datasets ###################################################
+rule merge_training:
+    input:expand(out+"{var1}/QC.rds", var1 =train_set.values() )
+    output:
+        cohort_merged= out+"merged_training/QC.rds"
+    script:
+       "scripts/merge_training.R"
+
+############################################ average expression across cells of the same sample #################################
+rule pseudo_bulk:
+    input:
+        cohort_training = out+"{var}/QC.rds"
+    output:
+        cohort_h5Seurat=out+"{var}/pseudo_bulk.h5Seurat",
+        
+    script:
+       "scripts/pseudo_bulk.R"
+       
+########################################## DE analysis to rank gene per fold change #############################################
+rule get_foldChange:
+    input:
+        cohort1 = out+"merged_training/pseudo_bulk.h5Seurat"
+    output:
+        foldChange1=out+"merged_training/fold_change_DESeq.csv",
+        foldChange2=out+"merged_training/fold_change_edgeR.csv",
+        sel=out+"merged_training/selected_genes.csv"
+    script:
+       "scripts/get_foldChange.R"
+       
+######################################### extract top genes######################################################################
+rule preprocess_data:
+    input: 
+        pseudo_bulk=out+"{var}/pseudo_bulk.h5Seurat",
+        fc=out+"merged_training/selected_genes.csv"
+    output: out+"{var}/selected_ge.csv"
+    script:
+       "scripts/preprocess_data.R"        
+       
+######################################### cell annotation based on seurat multimodal mapping ####################################
+rule annotate_cells:
+    input:
+        cohort_train = out+"{var}/QC.rds",
+    output:
+        annotation=out+"{var}/annotation.csv",
+    params:
+        ref=config['path_ref']
+    script:
+       "scripts/annotate_cells.R"
+     
+######################################## Train the MLP model ####################################################################
+rule train_model:
+    input:
+        CC=out+"merged_training/annotation.csv",
+        GE=out+"merged_training/selected_ge.csv",
+        #gender=out+"merged_training/gender.csv"
+    output:
+       val_set=out+"merged_training/val_set.pkl",
+       train_set=out+"merged_training/train_set.pkl",
+       model_j=out+"merged_training/MLP_CC_GE.pkl",
+       model_e=out+"merged_training/MLP_GE.pkl",
+       model_c=out+"merged_training/MLP_CC.pkl",
+       svm_e=out+"merged_training/svm_GE.pkl",
+       svm_c=out+"merged_training/svm_CC.pkl",
+       LReg_e=out+"merged_training/LReg_GE.pkl",
+       LReg_c=out+"merged_training/LReg_CC.pkl",
+       LogReg_e=out+"merged_training/LogReg_GE.pkl",
+       LogReg_c=out+"merged_training/LogReg_CC.pkl",
+       #Lasso_e=out+"merged_training/Lasso_GE.pkl",
+       #Lasso_c=out+"merged_training/Lasso_CC.pkl",       
+       RF_e=out+"merged_training/RF_GE.pkl",
+       RF_c=out+"merged_training/RF_CC.pkl",       
+       svm_j=out+"merged_training/svm_CC_GE.pkl",    
+       LReg_j=out+"merged_training/LReg_CC_GE.pkl",         
+       LogReg_j=out+"merged_training/LogReg_CC_GE.pkl",    
+       #Lasso_j=out+"merged_training/Lasso_CC_GE.pkl",  
+       RF_j=out+"merged_training/RF_CC_GE.pkl",
+       
+    params: out+"merged_training"
+    script: "scripts/training-hyperopt.py"
+    
+###################################### Performance on the validation set ########################################################
+rule predict_val:
+    input:
+       ge = out+"merged_training/val_set.pkl",
+       model_j=out+"merged_training/MLP_CC_GE.pkl",
+       model_e=out+"merged_training/MLP_GE.pkl",
+       model_c=out+"merged_training/MLP_CC.pkl",  
+       training=out+"merged_training/train_set.pkl",
+       selected=out+"merged_training/selected_ge.csv",
+    output:
+       pred_j=out+"merged_training/pred_CC_GE.csv",
+       pred_e=out+"merged_training/pred_GE.csv",
+       pred_c=out+"merged_training/pred_CC.csv",
+       fig=out+"merged_training/fig_metrics.pdf",           
+       pred_j_=out+"merged_training/pred_CC_GE.txt",
+       pred_e_=out+"merged_training/pred_GE.txt",
+       pred_c_=out+"merged_training/pred_CC.txt",   
+       #shap=out+"merged_training/fig_shap.pdf"       
+       
+    script: "scripts/predict_val.py"    
+    
+###################################### Performance on the external dataset ######################################################
+rule predict:
+    input:
+       CC = expand(out+"{var1}/annotation.csv", var1 =test_set.values() ),
+       GE = expand(out+"{var1}/selected_ge.csv", var1 =test_set.values() ),
+       model_j=out+"merged_training/MLP_CC_GE.pkl",
+       model_e=out+"merged_training/MLP_GE.pkl",
+       model_c=out+"merged_training/MLP_CC.pkl",       
+       training=out+"merged_training/train_set.pkl",
+       svm_e=out+"merged_training/svm_GE.pkl",
+       svm_c=out+"merged_training/svm_CC.pkl",
+       LReg_e=out+"merged_training/LReg_GE.pkl",
+       LReg_c=out+"merged_training/LReg_CC.pkl",
+       LogReg_e=out+"merged_training/LogReg_GE.pkl",
+       LogReg_c=out+"merged_training/LogReg_CC.pkl",
+       RF_e=out+"merged_training/RF_GE.pkl",
+       RF_c=out+"merged_training/RF_CC.pkl",    
+       svm_j=out+"merged_training/svm_CC_GE.pkl",    
+       LReg_j=out+"merged_training/LReg_CC_GE.pkl",         
+       LogReg_j=out+"merged_training/LogReg_CC_GE.pkl",    
+       RF_j=out+"merged_training/RF_CC_GE.pkl",
+       
+    output:
+       fig=out+"pred/MLP.pdf",           
+       svm_fig=out+"pred/SVM.pdf",           
+       LReg_fig=out+"pred/LinearR.pdf",           
+       LogReg_fig=out+"pred/LogisticR.pdf",           
+       RF_fig=out+"pred/RF.pdf",  
+       out_shap=out+"pred/fig_shap.pdf",
+       
+       
+    script: "scripts/predict.py"
+    
+###################################### rule all #################################################################################
+rule all:
+       input: expand(out+"{var1}/fig_shap.pdf", var1 =test_set.values() )
