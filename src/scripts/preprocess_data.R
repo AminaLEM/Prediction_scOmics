@@ -1,10 +1,11 @@
 library(SeuratDisk)
 library(tidyverse)
 set.seed(0)
+# pseudo-bulk of the selected genes
 inp = snakemake@input[[1]]
 fc_file = snakemake@input[[2]]
 out = snakemake@output[[1]]
-ch_avr = LoadH5Seurat(inp)
+ch_avr = LoadH5Seurat(paste0(inp,"_norm.h5Seurat"))
 top = read.csv(fc_file, row.names = 1)[,1]
 '%!in%' <- function(x, y)
   ! ('%in%'(x, y))

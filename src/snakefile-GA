@@ -46,6 +46,8 @@ rule get_foldChange:
         foldChange1=out+"merged_training/fold_change_DESeq.csv",
         foldChange2=out+"merged_training/fold_change_edgeR.csv",
         sel=out+"merged_training/selected_genes.csv"
+    params: config['nbTopGenes']
+        
     script:
        "scripts/get_foldChange.R"
        
@@ -84,8 +86,6 @@ rule train_model:
        model_c=out+"merged_training/MLP_CC.pkl",
        svm_e=out+"merged_training/svm_GE.pkl",
        svm_c=out+"merged_training/svm_CC.pkl",
-       LReg_e=out+"merged_training/LReg_GE.pkl",
-       LReg_c=out+"merged_training/LReg_CC.pkl",
        LogReg_e=out+"merged_training/LogReg_GE.pkl",
        LogReg_c=out+"merged_training/LogReg_CC.pkl",
        #Lasso_e=out+"merged_training/Lasso_GE.pkl",
@@ -93,12 +93,11 @@ rule train_model:
        RF_e=out+"merged_training/RF_GE.pkl",
        RF_c=out+"merged_training/RF_CC.pkl",       
        svm_j=out+"merged_training/svm_CC_GE.pkl",    
-       LReg_j=out+"merged_training/LReg_CC_GE.pkl",         
        LogReg_j=out+"merged_training/LogReg_CC_GE.pkl",    
        #Lasso_j=out+"merged_training/Lasso_CC_GE.pkl",  
        RF_j=out+"merged_training/RF_CC_GE.pkl",
        
-    params: out
+    params: out+"merged_training"
     script: "scripts/training-GA.py"
     
 ###################################### Performance on the validation set ########################################################
@@ -136,21 +135,17 @@ rule predict:
        training=out+"merged_training/train_set.pkl",
        svm_e=out+"merged_training/svm_GE.pkl",
        svm_c=out+"merged_training/svm_CC.pkl",
-       LReg_e=out+"merged_training/LReg_GE.pkl",
-       LReg_c=out+"merged_training/LReg_CC.pkl",
        LogReg_e=out+"merged_training/LogReg_GE.pkl",
        LogReg_c=out+"merged_training/LogReg_CC.pkl",
        RF_e=out+"merged_training/RF_GE.pkl",
        RF_c=out+"merged_training/RF_CC.pkl",    
        svm_j=out+"merged_training/svm_CC_GE.pkl",    
-       LReg_j=out+"merged_training/LReg_CC_GE.pkl",         
        LogReg_j=out+"merged_training/LogReg_CC_GE.pkl",    
        RF_j=out+"merged_training/RF_CC_GE.pkl",
        
     output:
        fig=out+"pred/MLP.pdf",           
        svm_fig=out+"pred/SVM.pdf",           
-       LReg_fig=out+"pred/LinearR.pdf",           
        LogReg_fig=out+"pred/LogisticR.pdf",           
        RF_fig=out+"pred/RF.pdf",  
        out_shap=out+"pred/fig_shap.pdf",

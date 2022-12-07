@@ -1,0 +1,20 @@
+path_out: "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/new_runs/output_Top5"  # path to the output directory, if it doesn't exist it will be created 
+path_out_celltype: "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/new_runs/output_celltype"  # path to the output directory, if it doesn't exist it will be created 
+
+# path_out: "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output_rop"  # path to the output directory, if it doesn't exist it will be created 
+
+path_inp: "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/code_v1/data"     # path to the directory containing the input datasets
+path_ref: "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/code_v1/data/pbmc_multimodal.h5seurat"      # reference dataset for seurat mapping 
+
+
+# INPUTS PARAMS
+training_data:    # training datasets (they will be merged, then 80% will be used for thetraining and 20% for the validation)
+    set14:  'bonn.h5Seurat'           
+    set1: 'berlin.h5Seurat'         
+
+test_data:               # testing datasets
+    set3:  'korean.h5Seurat'       
+    set4:  'stanford.h5Seurat'    
+
+nbTopGenes: 5
+

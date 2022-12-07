@@ -2,6 +2,7 @@ library(Seurat)
 set.seed(0)
 cohort = snakemake@input
 n = length(cohort)
+#Merge training sets and set as different batches
 for (i in 1:n) {
   print(cohort[[i]])
   chrt = readRDS(cohort[[i]])

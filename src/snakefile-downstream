@@ -1,0 +1,61 @@
+#!/usr/bin/env snakemake
+"""
+Snakemake pipeline for COVID-19 severity classification.
+"""
+
+__version__ = '0.1.0.02'
+
+out = config['path_out']+"/"
+out_celltype = config['path_out_celltype']+"/"
+inp = config['path_inp']+"/"
+test_set= config['test_data']
+train_set=  config['training_data']
+
+############################################## annotate_Figures  ############################################################
+rule annotate_Figures:
+    input: out
+    params:
+        fig= directory(out+"figures"),
+        ann_data= directory(out+"anno_data")
+    output: out+"figures/DGE.pdf"
+    script:
+       "scripts/annotate_Figures.R"    
+       
+############################################## DEG_Figures ############################################################
+rule DEG_Figures:
+    input: out+"figures/DGE.pdf"
+    params: 
+        inp1=out,
+        inp2=out+"figures"
+    output:
+        fig= out+"figures/DEG_all.pdf",
+    script:
+       "scripts/DEG_Figures.R"    
+############################################## DEGcelltypes_Figures  ###########################################################
+rule DEGcelltypes_Figures:
+    input: out+"figures/DGE.pdf"
+    params: 
+        inp1=out_celltype,
+        inp2=out+"figures"
+    
+    output:
+        fig= out+"figures/cpm.pdf",
+    script:
+       "scripts/DEGcelltypes_Figures.R"    
+
+
+############################################## correlation_Figures  ###########################################################
+rule correlation_Figures:
+    input: out+"figures/DGE.pdf"
+    params: 
+        inp1=out+"anno_data",
+        inp2=out+"figures"
+    output:
+        fig= out+"figures/spearmantraincorrelation.pdf",
+    script:
+       "scripts/correlation_Figures.R"    
+
+rule all:
+    input: 
+        inp1= out+"figures/spearmantraincorrelation.pdf",
+        inp2= out+"figures/cpm.pdf"
