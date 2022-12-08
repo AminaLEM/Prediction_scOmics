@@ -361,6 +361,9 @@ if __name__ == "__main__":
     for key in map_name_file.keys():
         with open(map_name_file[key], "wb") as b:
             pickle.dump(res[key], b)
+    with open(model_j_f+"history.pkl", "wb") as b:
+            pickle.dump(res["history"], b)
+
     # remove tmp files
     l_h5 = os.listdir(path)
     for item in l_h5:

@@ -64,13 +64,15 @@ print(cor(ch_avr_nor@assays$RNA@data['ANXA3',], bonn_avr_nor@assays$RNA@data['AN
 my_data = as.data.frame(cbind(ch_avr_nor$condition,ch_avr_nor@assays$RNA@data['RETN',],bonn_avr_nor@assays$RNA@data['RETN',]))
 print(my_data)
 colnames(my_data)= c('condition',"subsampled","all_cells")
+
 my_data$subsampled <- as.numeric(as.character(my_data$subsampled) )
 my_data$all_cells <- as.numeric(as.character(my_data$all_cells) )
 
 p1=ggscatter(my_data, x = "subsampled", y = "all_cells",color = 'condition',
           add = "reg.line", conf.int = TRUE, 
-          cor.coef = TRUE, cor.method = meth,
-          xlab = "", ylab = "normalized expression by all cells")+theme(legend.position = "none",plot.margin = margin(0.8,0.5,0.5,0.5, "cm"))
+          xlab = "", ylab = "normalized expression by all cells",palette = c("#3693a4", "#f7464e"))
+  p1=p1+  stat_cor(size = 7, method = meth)+
+  theme(legend.position = "none",plot.margin = margin(0.8,0.5,0.5,0.5, "cm"),text = element_text(size = 15))
 
 my_data = as.data.frame(cbind(ch_avr_nor$condition,ch_avr_nor@assays$RNA@data['S100P',],bonn_avr_nor@assays$RNA@data['S100P',]))
 print(my_data)
@@ -78,10 +80,11 @@ colnames(my_data)= c('condition',"subsampled","all_cells")
 my_data$subsampled <- as.numeric(as.character(my_data$subsampled) )
 my_data$all_cells <- as.numeric(as.character(my_data$all_cells) )
 
-p2=ggscatter(my_data, x = "subsampled", y = "all_cells",color = 'condition',
+p2=ggscatter(my_data, x = "subsampled", y = "all_cells", color = 'condition',,
              add = "reg.line", conf.int = TRUE, 
-             cor.coef = TRUE, cor.method = meth,
-             xlab = "normalized expression by subsampled cells", ylab = "")+theme(legend.position = "none",plot.margin = margin(0.8,0.5,0.5,0.5, "cm"))
+             xlab = "normalized expression by subsampled cells", ylab = "",palette = c("#3693a4", "#f7464e"))
+p2=p2+  stat_cor(size = 7, method = meth)+
+  theme(legend.position = "none",plot.margin = margin(0.8,0.5,0.5,0.5, "cm"),text = element_text(size = 15))
 
 my_data = as.data.frame(cbind(ch_avr_nor$condition,ch_avr_nor@assays$RNA@data['ANXA3',],bonn_avr_nor@assays$RNA@data['ANXA3',]))
 print(my_data)
@@ -93,10 +96,11 @@ my_data$all_cells <- as.numeric(as.character(my_data$all_cells) )
 
 p3=ggscatter(my_data, x = "subsampled", y = "all_cells", color = 'condition',
              add = "reg.line", conf.int = TRUE, 
-             cor.coef = TRUE, cor.method = meth,
-             xlab = "", ylab = "")+theme(plot.margin = margin(0.8,0.5,0.5,0.5, "cm"))
+             xlab = "", ylab = "",palette = c("#3693a4", "#f7464e"))
+  p3=p3+  stat_cor(size = 7, method = meth)+
+  theme(legend.position = "none",plot.margin = margin(0.8,0.5,0.5,0.5, "cm"),text = element_text(size = 15))
 figure <- ggarrange(p1,p2,p3,
-                    font.label = list(size = 16, color = "black", face = "bold", family = NULL),
+                    font.label = list(size = 20, color = "black", face = "bold", family = NULL),
                     labels = c("RETN", "S100P","ANXA3"),vjust= 1.2,
                     nrow = 1)
 pdf(file = paste0(paste0(paste0(paste0(path_to_outFig,"/"),meth),sam_name),"correlation.pdf"),   # The directory you want to save the file in

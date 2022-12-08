@@ -31,6 +31,7 @@ stan= readRDS(paste0(path_to_inp,'/stanford.h5Seurat/QC.rds'))
 
 
 ## ---------------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 
 bonn <- NormalizeData(object = bonn, normalization.method = "LogNormalize", scale.factor = 10000)
 berlin <- NormalizeData(object = berlin, normalization.method = "LogNormalize", scale.factor = 10000)
@@ -121,115 +122,99 @@ monaco.se <- MonacoImmuneData()
 #monaco.se <- NovershternHematopoieticData()
 
 
-## ---------------------------------------------------------------------------------------------------------------------------
+
 # perform singleR classification
-bonn$monaco.labels.f <- SingleR(test = GetAssayData(object = bonn, slot = "data", assay = "RNA"), 
-                               method="single",
-                               fine.tune=FALSE,
-                               ref = monaco.se, 
-                               labels = monaco.se$label.fine)$labels
-
-berlin$monaco.labels.f <- SingleR(test = GetAssayData(object = berlin, slot = "data", assay = "RNA"), 
-                               method="single",
-                               fine.tune=FALSE,
-                               ref = monaco.se, 
-                               labels = monaco.se$label.fine)$labels
-kor$monaco.labels.f <- SingleR(test = GetAssayData(object = kor, slot = "data", assay = "RNA"), 
-                               method="single",
-                               fine.tune=FALSE,
-                               ref = monaco.se, 
-                               labels = monaco.se$label.fine)$labels
-stan$monaco.labels.f <- SingleR(test = GetAssayData(object = stan, slot = "data", assay = "RNA"), 
-                               method="single",
-                               fine.tune=FALSE,
-                               ref = monaco.se, 
-                               labels = monaco.se$label.fine)$labels
-
-
 ## ---------------------------------------------------------------------------------------------------------------------------
 bonn_ql <- SingleR(test = GetAssayData(object = bonn, slot = "data", assay = "RNA"), 
-                               method="single",
-                               fine.tune=FALSE,
-                               ref = monaco.se, 
-                               labels = monaco.se$label.fine)
+                   method="single",
+                   fine.tune=FALSE,
+                   ref = monaco.se, 
+                   labels = monaco.se$label.fine)
 p1=plotScoreHeatmap(bonn_ql)
 
 berlin_ql <- SingleR(test = GetAssayData(object = berlin, slot = "data", assay = "RNA"), 
-                               method="single",
-                               fine.tune=FALSE,
-                               ref = monaco.se, 
-                               labels = monaco.se$label.fine)
+                     method="single",
+                     fine.tune=FALSE,
+                     ref = monaco.se, 
+                     labels = monaco.se$label.fine)
 p2=plotScoreHeatmap(berlin_ql)
 
 kor_ql <- SingleR(test = GetAssayData(object = kor, slot = "data", assay = "RNA"), 
-                               method="single",
-                               fine.tune=FALSE,
-                               ref = monaco.se, 
-                               labels = monaco.se$label.fine)
+                  method="single",
+                  fine.tune=FALSE,
+                  ref = monaco.se, 
+                  labels = monaco.se$label.fine)
 p3=plotScoreHeatmap(kor_ql)
 
 stan_ql<- SingleR(test = GetAssayData(object = stan, slot = "data", assay = "RNA"), 
-                               method="single",
-                               fine.tune=FALSE,
-                               ref = monaco.se, 
-                               labels = monaco.se$label.fine)
+                  method="single",
+                  fine.tune=FALSE,
+                  ref = monaco.se, 
+                  labels = monaco.se$label.fine)
 p4=plotScoreHeatmap(stan_ql)
 
-png(file = paste0(paste0(path_to_outFig,"/singlerRscores_bonn.pdf")),   # The directory you want to save the file in
+arrangeGrob(p1, p2, ncol=1)
+
+pdf(file = paste0(path_to_outFig,"/singlerRscores_bonn.pdf"),   # The directory you want to save the file in
     width = 15, # The width of the plot in inches
     height = 5) # The height of the plot in inches
 p1
 dev.off()
 
-pdf(file = paste0(paste0(path_to_outFig,"/singlerRscores_berlin.pdf")),   # The directory you want to save the file in
+pdf(file = paste0(path_to_outFig,"/singlerRscores_berlin.pdf"),   # The directory you want to save the file in
     width = 15, # The width of the plot in inches
     height = 5) # The height of the plot in inches
 p2
 dev.off()
-pdf(file = paste0(paste0(path_to_outFig,"/singlerRscores_kor.pdf")),   # The directory you want to save the file in
+pdf(file = paste0(path_to_outFig,"/singlerRscores_kor.pdf"),   # The directory you want to save the file in
     width = 15, # The width of the plot in inches
     height = 5) # The height of the plot in inches
 p3
 dev.off()
-pdf(file = paste0(paste0(path_to_outFig,"/singlerRscores_stan.pdf")),   # The directory you want to save the file in
+pdf(file = paste0(path_to_outFig,"/singlerRscores_stan.pdf"),   # The directory you want to save the file in
     width = 15, # The width of the plot in inches
     height = 5) # The height of the plot in inches
 p4
 dev.off()
 
 
+## ---------------------------------------------------------------------------------------------------------------------------
+
+bonn$monaco.labels.f <- bonn_ql$labels
+
+berlin$monaco.labels.f <- berlin_ql$labels
+kor$monaco.labels.f <- kor_ql$labels
+stan$monaco.labels.f <- stan_ql$labels
 
 
 ## ---------------------------------------------------------------------------------------------------------------------------
 annotate <- function(bonn){
-bonn$celltype = bonn$monaco.labels.f
-
-
-
-bonn$celltype[bonn$celltype %in% c("Naive B cells",'Non-switched memory B cells','Switched memory B cells')] = 'B cells'
-bonn$celltype[bonn$celltype %in% c("Th1/Th17 cells" ,"Th17 cells" ,"Th2 cells","Follicular helper T cells","Th1 cells","Terminal effector CD4 T cells","Naive CD4 T cells")] = 'CD4 T cells'
-bonn$celltype[bonn$celltype %in% c("Terminal effector CD8 T cells","Effector memory CD8 T cells","Central memory CD8 T cells","Naive CD8 T cells")] = "CD8 T cells"
-
-bonn$celltype[bonn$celltype %in% c("Vd2 gd T cells","Non-Vd2 gd T cells")] = 'gd T cells'
-bonn$celltype[bonn$celltype == "Progenitor cells"] = 'Platelet cells'
-bonn$celltype[bonn$celltype %in% c("Low-density basophils","Exhausted B cells")] = 'mixed'
-
-
-identities = c('Classical monocytes',"Non classical monocytes","Intermediate monocytes", "Plasmacytoid dendritic cells","Myeloid dendritic cells", "B cells", "Plasmablasts", "CD8 T cells" , "CD4 T cells", "T regulatory cells", "MAIT cells", "gd T cells","Natural killer cells","Low-density neutrophils" ,"Platelet cells",'mixed' )
-#identities = c('Classical monocytes',"Non classical monocytes","Intermediate monocytes", "Plasmacytoid dendritic cells","Myeloid dendritic cells", "Naive B cells","Exhausted B cells" , "memory B cells" ,"Plasmablasts", "CD8 T cells" , "CD4 T cells", "MAIT cells", "gd T cells","Natural killer cells","Low-density neutrophils","Low-density basophils" ,"Progenitor cells" )
-
-#Idents(bonn)= bonn$celltype
-
-Idents(bonn)=factor(bonn$celltype, levels = identities)
-#DotPlot(bonn, features = c('LRRN3', 'CCR7', 'NPM1', 'SELL', 'PASK', 'IL7R', 'KLRB1', 'PRF1','TNFSF13B','GZMK','CCL5','CCL4','GZMH','GZMA','GNLY','NKG7','CST7','ITGB1','FOXP3','IL2RA','CD4','CD8A','CD8B','TRAC','CD3G','CD3D','CD3E','CCR5','TBX21','TGFB1'), cols = 'RdBu')+RotatedAxis()+ggtitle('stanford')
-return(bonn)
+  bonn$celltype = bonn$monaco.labels.f
+  
+  
+  
+  bonn$celltype[bonn$celltype %in% c("Naive B cells",'Non-switched memory B cells','Switched memory B cells')] = 'B cells'
+  bonn$celltype[bonn$celltype %in% c("Th1/Th17 cells" ,"Th17 cells" ,"Th2 cells","Follicular helper T cells","Th1 cells","Terminal effector CD4 T cells","Naive CD4 T cells")] = 'CD4 T cells'
+  bonn$celltype[bonn$celltype %in% c("Terminal effector CD8 T cells","Effector memory CD8 T cells","Central memory CD8 T cells","Naive CD8 T cells")] = "CD8 T cells"
+  
+  bonn$celltype[bonn$celltype %in% c("Vd2 gd T cells","Non-Vd2 gd T cells")] = 'gd T cells'
+  bonn$celltype[bonn$celltype == "Progenitor cells"] = 'Platelet cells'
+  bonn$celltype[bonn$celltype %in% c("Low-density basophils","Exhausted B cells")] = 'mixed'
+  
+  
+  identities = c('Classical monocytes',"Non classical monocytes","Intermediate monocytes", "Plasmacytoid dendritic cells","Myeloid dendritic cells", "B cells", "Plasmablasts", "CD8 T cells" , "CD4 T cells", "T regulatory cells", "MAIT cells", "gd T cells","Natural killer cells","Low-density neutrophils" ,"Platelet cells",'mixed' )
+  #identities = c('Classical monocytes',"Non classical monocytes","Intermediate monocytes", "Plasmacytoid dendritic cells","Myeloid dendritic cells", "Naive B cells","Exhausted B cells" , "memory B cells" ,"Plasmablasts", "CD8 T cells" , "CD4 T cells", "MAIT cells", "gd T cells","Natural killer cells","Low-density neutrophils","Low-density basophils" ,"Progenitor cells" )
+  
+  #Idents(bonn)= bonn$celltype
+  
+  Idents(bonn)=factor(bonn$celltype, levels = identities)
+  #DotPlot(bonn, features = c('LRRN3', 'CCR7', 'NPM1', 'SELL', 'PASK', 'IL7R', 'KLRB1', 'PRF1','TNFSF13B','GZMK','CCL5','CCL4','GZMH','GZMA','GNLY','NKG7','CST7','ITGB1','FOXP3','IL2RA','CD4','CD8A','CD8B','TRAC','CD3G','CD3D','CD3E','CCR5','TBX21','TGFB1'), cols = 'RdBu')+RotatedAxis()+ggtitle('stanford')
+  return(bonn)
 }
 bonn =annotate (bonn)
 stan =annotate (stan)
 kor =annotate (kor)
 berlin =annotate (berlin)
-dir.create (path_to_outData)
-dir.create (path_to_outFig)
 saveRDS(bonn,paste0(path_to_outData,'/bonn_anno.rds'))
 saveRDS(berlin,paste0(path_to_outData,'/berlin_anno.rds'))
 saveRDS(kor,paste0(path_to_outData,'/kor_anno.rds'))
@@ -240,18 +225,18 @@ saveRDS(stan,paste0(path_to_outData,'/stan_anno.rds'))
 ## ---------------------------------------------------------------------------------------------------------------------------
 
 findmarker <- function(ch,dataset){
-Idents(ch)=ch$celltype
-plan("multiprocess", workers = 20)
-markers <- FindAllMarkers(object = ch,
-                                                 only.pos = TRUE,
-                                                 min.pct = 0.2,
-                                                 logfc.threshold = 0.2,
-                                                 min.diff.pct = 0.1,
-                                                 test.use = "wilcox"
-)
-plan(sequential)
-write.csv(markers, paste0(paste0(paste0(path_to_outFig,'/markers_'),dataset),'.csv'))
-return(markers)
+  Idents(ch)=ch$celltype
+  plan("multiprocess", workers = 20)
+  markers <- FindAllMarkers(object = ch,
+                            only.pos = TRUE,
+                            min.pct = 0.2,
+                            logfc.threshold = 0.2,
+                            min.diff.pct = 0.1,
+                            test.use = "wilcox"
+  )
+  plan(sequential)
+  write.csv(markers, paste0(paste0(paste0(path_to_outFig,'/markers_'),dataset),'.csv'))
+  return(markers)
 }
 bonn_markers = findmarker(bonn,'bonn')
 berlin_markers = findmarker(berlin,'berlin')
@@ -308,45 +293,45 @@ dev.off()
 ## ---------------------------------------------------------------------------------------------------------------------------
 sev_colors <- c("Mild" = "#3693a4","Severe" = "#f7464e")
 singleR_colors <- c(
-                    "CD4 T cells" = "#cecce2",
-                    
-
-                    "CD8 T cells" = "#422483",
-                    "T regulatory cells" = "#2907b4",
-
-                    
-                    "gd T cells" = "#004c9d",
-
-                    
-
-                    "Natural killer cells" = "#338eb0",
-
-                    
-                    "MAIT cells" = "#d9dada",
-                    
-
-                    "B cells" = "#00963f",
-
-                    "Plasmablasts" = "#d5e7dd",
-                    
-
-
-                    "Plasmacytoid dendritic cells" = "#ef7c00",
-                    
-                    "Myeloid dendritic cells" = "#e2a9cd",
-                    
-                    "Intermediate monocytes" = "#e6330f",
-                    "Non classical monocytes" = "#ea5552",
-
-                    "Classical monocytes" = "#f4a5a5",
-
-                    
-
-                    "Low-density neutrophils" = "#87cbbe",
-
-                    "Platelet cells" = "#2a3937",
-                    
-                    "mixed"="#63CDE3"
+  "CD4 T cells" = "#cecce2",
+  
+  
+  "CD8 T cells" = "#422483",
+  "T regulatory cells" = "#2907b4",
+  
+  
+  "gd T cells" = "#004c9d",
+  
+  
+  
+  "Natural killer cells" = "#338eb0",
+  
+  
+  "MAIT cells" = "#d9dada",
+  
+  
+  "B cells" = "#00963f",
+  
+  "Plasmablasts" = "#d5e7dd",
+  
+  
+  
+  "Plasmacytoid dendritic cells" = "#ef7c00",
+  
+  "Myeloid dendritic cells" = "#e2a9cd",
+  
+  "Intermediate monocytes" = "#e6330f",
+  "Non classical monocytes" = "#ea5552",
+  
+  "Classical monocytes" = "#f4a5a5",
+  
+  
+  
+  "Low-density neutrophils" = "#87cbbe",
+  
+  "Platelet cells" = "#2a3937",
+  
+  "mixed"="#63CDE3"
 )
 
 
@@ -355,7 +340,7 @@ singleR_colors <- c(
 options(repr.plot.width=20, repr.plot.height=20)
 c25 <- c(
   "#E69F00", "#56B4E9","#ed07ac" , "#F0E442", 
-                            "#0072B2", "#D55E00", "#CC79A7", "#000000",
+  "#0072B2", "#D55E00", "#CC79A7", "#000000",
   "blue", "#E31A1C", # red
   "dodgerblue2",
   "#009E73", "green1", "yellow4"
@@ -363,8 +348,8 @@ c25 <- c(
 )
 
 annotate <- function(bonn){
-Idents(bonn)=factor(bonn$celltype, levels = identities)
-return(bonn)
+  Idents(bonn)=factor(bonn$celltype, levels = identities)
+  return(bonn)
 }
 bonn =annotate (bonn)
 stan =annotate (stan)
@@ -373,7 +358,7 @@ berlin =annotate (berlin)
 p1 <- DimPlot(object = bonn, reduction = 'umap', label = FALSE, cols= singleR_colors,raster=FALSE)+ NoLegend()+theme(plot.margin = margin(0.5,0.5,0.5,0.5, "cm"),axis.text=element_blank(),        axis.ticks=element_blank())
 p2 <- DimPlot(object = berlin, reduction = 'umap', label = FALSE,cols= singleR_colors) + NoLegend()+theme(plot.margin = margin(0.5,0.5,0.5,0.5, "cm"),axis.text=element_blank(),        axis.ticks=element_blank())
 p3 <- DimPlot(object = kor, reduction = 'umap', label = FALSE,cols= singleR_colors) + 
-   theme(legend.text = element_text(size=8))+theme(plot.margin = margin(0.5,0.5,0.5,0.5, "cm"),axis.text=element_blank(),        axis.ticks=element_blank())
+  theme(legend.text = element_text(size=8))+theme(plot.margin = margin(0.5,0.5,0.5,0.5, "cm"),axis.text=element_blank(),        axis.ticks=element_blank())
 p4 <- DimPlot(object = stan, reduction = 'umap', label = FALSE,cols= singleR_colors,raster=FALSE) + NoLegend()+theme(plot.margin = margin(0.5,0.5,0.5,0.5, "cm"),axis.text=element_blank(),        axis.ticks=element_blank())
 
 
@@ -385,7 +370,7 @@ p5 <- DimPlot(object = bonn, reduction = 'umap', label = FALSE, cols= sev_colors
 p6 <- DimPlot(object = berlin, reduction = 'umap', label = FALSE,cols= sev_colors) + NoLegend()+theme(plot.margin = margin(0.5,0.5,0.5,0.5, "cm"),axis.text=element_blank(),        axis.ticks=element_blank())
 
 p7 <- DimPlot(object = kor, reduction = 'umap', label = FALSE,cols= sev_colors) + 
-   theme(legend.text = element_text(size=8))+theme(plot.margin = margin(0.5,0.5,0.5,0.5, "cm"),axis.text=element_blank(),        axis.ticks=element_blank())
+  theme(legend.text = element_text(size=8))+theme(plot.margin = margin(0.5,0.5,0.5,0.5, "cm"),axis.text=element_blank(),        axis.ticks=element_blank())
 p8 <- DimPlot(object = stan, reduction = 'umap', label = FALSE,cols= sev_colors,raster=FALSE) + NoLegend()+theme(plot.margin = margin(0.5,0.5,0.5,0.5, "cm"),axis.text=element_blank(),        axis.ticks=element_blank())
 
 
@@ -393,7 +378,6 @@ figure <- ggarrange(p5, p1, p6,p2,p8,p4,p7,p3,
                     font.label = list(size = 16, color = "black", face = "bold", family = NULL),
                     labels = c("Bonn","Bonn", "Berlin", "Berlin","Stanford","Stanford",'Korea','Korea'),vjust= 1.2,
                     ncol = 2, nrow = 4)
-figure
 
 pdf(file = paste0(path_to_outFig,"/umap2.pdf"),   # The directory you want to save the file in
     width = 14, # The width of the plot in inches
@@ -466,16 +450,16 @@ dev.off()
 
 ## ---------------------------------------------------------------------------------------------------------------------------
 plt<-function(data){
-#data[,!names(data) %in% c('X','condition')] = data[,!names(data) %in% c('X','condition')]/rowSums(data[,!names(data) %in% c('X','condition')])
-#data1=data[,c('X','condition','Myeloid.dendritic.cells','Plasmacytoid.dendritic.cells')]
-#data1= data[,names(data)%in% c('X','condition','Low.density.neutrophils')]
-#data1 <- melt(data, id=c("X","condition")) 
-
-p <- ggplot(data, aes(x = condition, y = prop))+geom_boxplot( width=0.6, alpha=0.5)+  geom_dotplot(binaxis='y', stackdir='center')+scale_y_continuous(expand = expansion(mult = c(0, 0.2)))
-# Use only p.format as label. Remove method name.
-p=p + facet_wrap(~ celltype, nrow=2,scales="free")+stat_compare_means( comparisons =list( c("Severe", "Mild")),
- label = 'p.signif',label.y.npc='center' )+theme_bw()+ylab('Proportion%')+theme(strip.text.x = element_text(size = 7),plot.margin = margin(0.8,0.5,0.5,0.5, "cm"))
-return(p)
+  #data[,!names(data) %in% c('X','condition')] = data[,!names(data) %in% c('X','condition')]/rowSums(data[,!names(data) %in% c('X','condition')])
+  #data1=data[,c('X','condition','Myeloid.dendritic.cells','Plasmacytoid.dendritic.cells')]
+  #data1= data[,names(data)%in% c('X','condition','Low.density.neutrophils')]
+  #data1 <- melt(data, id=c("X","condition")) 
+  
+  p <- ggplot(data, aes(x = condition, y = prop))+geom_boxplot( width=0.6, alpha=0.5)+  geom_dotplot(binaxis='y', stackdir='center')+scale_y_continuous(expand = expansion(mult = c(0, 0.2)))
+  # Use only p.format as label. Remove method name.
+  p=p + facet_wrap(~ celltype, nrow=2,scales="free")+stat_compare_means( comparisons =list( c("Severe", "Mild")),
+                                                                         label = 'p.signif',label.y.npc='center' )+theme_bw()+ylab('Proportion%')+theme(strip.text.x = element_text(size = 7),plot.margin = margin(0.8,0.5,0.5,0.5, "cm"))
+  return(p)
 }
 
 #mgh <- read.csv(file = '/prj/NUM_CODEX_PLUS/Amina/CellSubmission/new_runs/output_MGH/mgh.h5Seurat/annotation.csv')
@@ -485,18 +469,18 @@ return(p)
 
 
 proportion = function(bonn){
-table(bonn$celltype)
-
-bonn_prop = aggregate(batch ~ sampleID + condition+ celltype,                                            # Count rows of all groups
-          data = bonn@meta.data[,c('batch','sampleID','condition','celltype')],
-          FUN = length)
-bonn_prop = bonn_prop[bonn_prop$celltype != 'mixed',]
-bonn_prop=bonn_prop %>% 
-  group_by(sampleID) %>% 
-  mutate(across(batch, sum, .names = "{.col}_sum")) %>% 
-  ungroup()
-bonn_prop$prop = bonn_prop$batch*100 /bonn_prop$batch_sum
-return(bonn_prop)
+  table(bonn$celltype)
+  
+  bonn_prop = aggregate(batch ~ sampleID + condition+ celltype,                                            # Count rows of all groups
+                        data = bonn@meta.data[,c('batch','sampleID','condition','celltype')],
+                        FUN = length)
+  bonn_prop = bonn_prop[bonn_prop$celltype != 'mixed',]
+  bonn_prop=bonn_prop %>% 
+    group_by(sampleID) %>% 
+    mutate(across(batch, sum, .names = "{.col}_sum")) %>% 
+    ungroup()
+  bonn_prop$prop = bonn_prop$batch*100 /bonn_prop$batch_sum
+  return(bonn_prop)
 }
 
 bonn_prop = proportion(bonn)
@@ -527,16 +511,16 @@ dev.off()
 
 ## ---------------------------------------------------------------------------------------------------------------------------
 plot_bar<-function(data){
-#data[,!names(data) %in% c('X','condition')] = data[,!names(data) %in% c('X','condition')]/rowSums(data[,!names(data) %in% c('X','condition')])
-#data1=data[,c('X','condition','Myeloid.dendritic.cells','Plasmacytoid.dendritic.cells')]
-#data1= data[,names(data)%in% c('X','condition','Low.density.neutrophils')]
-#data1 <- melt(data, id=c("X","condition")) 
-
-p <- ggplot(data, aes(x = cohort, y = x, fill=condition))+geom_boxplot( width=0.6, alpha=0.5)+    geom_bar(stat = "identity",position = "dodge")+scale_y_continuous(expand = expansion(mult = c(0, 0.2)))
-# Use only p.format as label. Remove method name.
-p=p + facet_wrap(~ celltype, nrow=4,scales="free")+stat_compare_means( comparisons =list( c("Severe", "Mild")),
- label = 'p.signif',label.y.npc='center' )+theme_bw()+ylab('Proportion%')+theme(strip.text.x = element_text(size = 7),plot.margin = margin(0.8,0.5,0.5,0.5, "cm"))
-return(p)
+  #data[,!names(data) %in% c('X','condition')] = data[,!names(data) %in% c('X','condition')]/rowSums(data[,!names(data) %in% c('X','condition')])
+  #data1=data[,c('X','condition','Myeloid.dendritic.cells','Plasmacytoid.dendritic.cells')]
+  #data1= data[,names(data)%in% c('X','condition','Low.density.neutrophils')]
+  #data1 <- melt(data, id=c("X","condition")) 
+  
+  p <- ggplot(data, aes(x = cohort, y = x, fill=condition))+geom_boxplot( width=0.6, alpha=0.5)+    geom_bar(stat = "identity",position = "dodge")+scale_y_continuous(expand = expansion(mult = c(0, 0.2)))
+  # Use only p.format as label. Remove method name.
+  p=p + facet_wrap(~ celltype, nrow=4,scales="free")+stat_compare_means( comparisons =list( c("Severe", "Mild")),
+                                                                         label = 'p.signif',label.y.npc='center' )+theme_bw()+ylab('Proportion%')+theme(strip.text.x = element_text(size = 7),plot.margin = margin(0.8,0.5,0.5,0.5, "cm"))
+  return(p)
 }
 
 #mgh <- read.csv(file = '/prj/NUM_CODEX_PLUS/Amina/CellSubmission/new_runs/output_MGH/mgh.h5Seurat/annotation.csv')
@@ -546,23 +530,23 @@ return(p)
 
 
 proportion = function(bonn){
-bonn$celltype = bonn$monaco.labels.f  
-table(bonn$celltype)
-
-bonn_prop = aggregate(batch ~ sampleID + condition+ celltype,                                            # Count rows of all groups
-          data = bonn@meta.data[,c('batch','sampleID','condition','celltype')],
-          FUN = length)
-# plt(mgh, "MGH cohort")
-# plt(Cam, "Cambridge cohort")
-# plt(ucl, "UCL cohort")
-# plt(ncl, "NCL cohort")
-bonn_prop = bonn_prop[bonn_prop$celltype != 'mixed',]
-bonn_prop=bonn_prop %>% 
-  group_by(sampleID) %>% 
-  mutate(across(batch, sum, .names = "{.col}_sum")) %>% 
-  ungroup()
-bonn_prop$prop = bonn_prop$batch*100 /bonn_prop$batch_sum
-return(bonn_prop)
+  bonn$celltype = bonn$monaco.labels.f  
+  table(bonn$celltype)
+  
+  bonn_prop = aggregate(batch ~ sampleID + condition+ celltype,                                            # Count rows of all groups
+                        data = bonn@meta.data[,c('batch','sampleID','condition','celltype')],
+                        FUN = length)
+  # plt(mgh, "MGH cohort")
+  # plt(Cam, "Cambridge cohort")
+  # plt(ucl, "UCL cohort")
+  # plt(ncl, "NCL cohort")
+  bonn_prop = bonn_prop[bonn_prop$celltype != 'mixed',]
+  bonn_prop=bonn_prop %>% 
+    group_by(sampleID) %>% 
+    mutate(across(batch, sum, .names = "{.col}_sum")) %>% 
+    ungroup()
+  bonn_prop$prop = bonn_prop$batch*100 /bonn_prop$batch_sum
+  return(bonn_prop)
 }
 
 bonn_prop = proportion(bonn)
@@ -606,11 +590,11 @@ dev.off()
 ## ---------------------------------------------------------------------------------------------------------------------------
 
 plt<-function(data){
-data1 <- melt(data, id=c("X","condition","who_score","Set"))
-data1$Set = factor(data1$Set, levels=c("Training set","Test set"))
-p <- ggplot(data1, aes(x = condition, y = value))+geom_boxplot(aes(fill=condition), width=0.6, alpha=0.5)+scale_fill_manual(values = c("#3693a4", "#f7464e"))
-p + facet_wrap(vars(variable, Set ), nrow=1)+stat_compare_means( comparisons =list( c("Severe", "Mild")),
- label = 'p.signif',label.y.npc='center')+theme_bw()+ theme(text = element_text(size = 16))+ylab('normalized gene expression')+NoLegend()
+  data1 <- melt(data, id=c("X","condition","who_score","Set"))
+  data1$Set = factor(data1$Set, levels=c("Training set","Test set"))
+  p <- ggplot(data1, aes(x = condition, y = value))+geom_boxplot(aes(fill=condition), width=0.6, alpha=0.5)+scale_fill_manual(values = c("#3693a4", "#f7464e"))
+  p + facet_wrap(vars(variable, Set ), nrow=1)+stat_compare_means( comparisons =list( c("Severe", "Mild")),
+                                                                   label = 'p.signif',label.y.npc='center')+theme_bw()+ theme(text = element_text(size = 16))+ylab('normalized gene expression')+NoLegend()
 }
 stan <- read.csv(file = paste0(path_to_inp,'/stanford.h5Seurat/selected_ge.csv'))
 kor <- read.csv(file = paste0(path_to_inp,'/korean.h5Seurat/selected_ge.csv'))
@@ -668,4 +652,3 @@ dev.off()
 ## ---------------------------------------------------------------------------------------------------------------------------
 
 sessionInfo()
-

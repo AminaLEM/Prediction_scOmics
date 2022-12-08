@@ -54,8 +54,30 @@ rule correlation_Figures:
         fig= out+"figures/spearmantraincorrelation.pdf",
     script:
        "scripts/correlation_Figures.R"    
+############################################## Plots_Figure1  ###########################################################
+rule Plots_Figure1:
+    params: 
+        path_inp=out,
+        path_inp_celltype=out_celltype,
+        
+    output:
+        fig= out+"/figures/AUC.PR_celltypes.pdf",
+    script:
+       "scripts/Plots_Figure1.py"    
+############################################## Plots_Figure1_2  ###########################################################
+rule Plots_Figure1_2:
+    params: 
+        path_inp=out,
+    output:
+        fig= out+"/figures/GEpred.pdf",
+    script:
+       "scripts/Plots_Figure1_2.py"    
 
 rule all:
     input: 
         inp1= out+"figures/spearmantraincorrelation.pdf",
-        inp2= out+"figures/cpm.pdf"
+        inp2= out+"figures/cpm.pdf",
+        fig1= out+"figures/DEG_all.pdf",
+        fig2= out+"/figures/GEpred.pdf",
+        fig3= out+"/figures/AUC.PR_celltypes.pdf",
+        

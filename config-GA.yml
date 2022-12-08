@@ -1,5 +1,5 @@
 DOCKER: "docker://aminale/test:firstpush" # Docker image
-path_out: "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/new_runs/output_TOP5_GenderAge"  # path to the output directory, if it doesn't exist it will be created 
+path_out: "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/new_runs/output_Top5_GenderAge"  # path to the output directory, if it doesn't exist it will be created 
 # path_out: "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/output_rop"  # path to the output directory, if it doesn't exist it will be created 
 
 path_inp: "/prj/NUM_CODEX_PLUS/Amina/CellSubmission/code_v1/data"     # path to the directory containing the input datasets
