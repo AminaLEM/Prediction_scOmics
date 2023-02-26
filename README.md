@@ -211,7 +211,7 @@ Notes & Tips
 - To convert docker image to singularity on HPC, you can use docker images [docker2singularity](https://github.com/singularityhub/docker2singularity) 
 
 ```bash
-docker pull docker2singularity
+docker pull singularityware/docker2singularity
 
 #conversion
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v /prj/NUM_CODEX_PLUS/Amina/CellSubmission/Prediction_scOmics/singularity:/output -t --rm quay.io/singularity/docker2singularity test:latest
